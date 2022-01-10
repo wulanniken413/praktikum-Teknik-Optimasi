@@ -2,7 +2,7 @@
 
 class Parameters
 {
-    const FILE_NAME = 'product.txt';
+    const FILE_NAME = 'products.txt';
     const COLUMNS = ['item','price'];
     const POPULATION_SIZE = 10;
     const BUDGET = 280000;
@@ -197,13 +197,22 @@ class Crossover
                 $parents[$i] = $randomZeroToOne;
             }
         }
-        echo '<br>';
-        print_r($parents);
+        foreach (array_keys($parents) as $key){
+            foreachm(array_keys($parents) as $subKey){
+                if ($key !== $subKey){
+                    $ret[] = [$key, $subKey];
+                }
+            }
+            array_shift($keys);
+        }
+        return $ret;
     }
 
     function crossover()
     {
-        $this->generateCrossover();
+        foreach ($this->generateCrossover() as $listOCrossover){
+            print_r($listOCrossover); echo '<br>';
+        }
     }
 }
 $initialPopulation = new Population;
