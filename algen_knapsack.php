@@ -2,11 +2,12 @@
 
 class Parameters
 {
-    const FILE_NAME = 'products.txt';
+    const FILE_NAME = 'product.txt';
     const COLUMNS = ['item','price'];
     const POPULATION_SIZE = 10;
     const BUDGET = 280000;
     const STOPPING_VALUE = 10000;
+    const CROSOVER_RATE = 0.8;
 }
 
 class Catalogue
@@ -174,8 +175,42 @@ class Fitness
         }
     }
 }
+
+class Crossover
+{
+    public  $populations;
+
+    function __constructs($populations)
+    {
+        $this->populations = $populations;
+    }
+    function randomZeroToOne()
+    {
+        return (float) rand() / (float) getrandmax();
+    }
+
+    function generateCrossover()
+    {
+        for ($i =0; $i <= Parameters::POPULATION_SIZE-1; $i++){
+            $randomZeroToOne = $this->randomZeroToOne
+            if ($randomZeroToOne < Parameters::CROSOVER_RATE){
+                $parents[$i] = $randomZeroToOne;
+            }
+        }
+        echo '<br>';
+        print_r($parents);
+    }
+
+    function crossover()
+    {
+        $this->generateCrossover();
+    }
+}
 $initialPopulation = new Population;
 $Population = $initialPopulation->createRandomPopulation();
 
 $fitness = new Fitness;
-$fitness->fitnessEvaluation($population);
+$fitness->fitnessEvaluation($population); 
+
+$crossover = new Crossover($population);
+$crossover->crossover();
