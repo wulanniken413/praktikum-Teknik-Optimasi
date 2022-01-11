@@ -82,6 +82,14 @@ class Fitness
        return count($this->selectingItem($individu));
     }
 
+    function isFound($fits)
+    {
+       $countedMaxItems = array_count_values(array_column($fits, 'numberOfSelectedItem'));
+       print_r($countedMaxItems);
+       echo '<br>';
+       echo max(array_keys($countedMaxItems)); 
+    }
+
     function isFit($fitnessValue)
     {
         if ($fitnessValue <= Parameters::BUDGET){
@@ -114,9 +122,9 @@ class Fitness
             } else {
                 echo ' (Not Fit)';
             }
-
             echo '<p>';
         }
+        $this->isFound($fits);
         
 
     }
