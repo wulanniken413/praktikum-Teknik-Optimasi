@@ -76,6 +76,11 @@ class Fitness
         return array_sum(array_column($this->selectingItem($individu),'selectedPrice'));
     }
 
+    function countSelectedItem($individu)
+    {
+       return count($this->selectingItem($individu));
+    }
+
     function fitnessEvaluation ($population)
     {
         $catalogue = new Catalogue;
@@ -87,7 +92,9 @@ class Fitness
                 echo '<br>';
             }
             $fitnessValue = $this->calculateFitnessValue($listOfIndividu);
-            echo 'fitnessValue: '.$fitnessValue;
+            $numberOfSelectedItem = $this->countSelectedItem($listOfIndividu);
+            echo 'Max. Item: '.$numberOfSelectedItem;
+            echo ' Fitness value: '.$fitnessValue;
             echo '<br>';
         }
         
