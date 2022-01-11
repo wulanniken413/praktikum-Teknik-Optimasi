@@ -51,10 +51,24 @@ class Population
         for ($i = 0; $i<= Parameters::POPULATION_SIZE-1; $i++){
             $ret[] = $individu->createRandomIndividu();
         }
-        foreach($ret as $key => $val){
-            print_r($val);
-            echo '<br>';
-        }
+        return $ret;
+    }
+}
+
+class Fitness
+{
+    //function selectingItem()
+    //{
+        //$catalogue = new Catalogue;
+    //}
+
+    function fitnessEvaluation ($population)
+    {
+        //$catalogue = new Catalogue;
+        print_r($population);
+        //foreach ($population as $listOfIndividuKey => $listOfIndividu){
+            //echo 'Individu-.' $listOfIndividuKey.',<br>';
+        //}
     }
 }
 
@@ -64,11 +78,10 @@ $parameters = [
     'population_size' => 10
 ];
 
-//$katalog = new Catalogue;
-//$katalog->product($parameters);
-
 $initalPopulation = new Population;
-$initalPopulation->createRandomPopulation();
+$population=$initalPopulation->createRandomPopulation();
 
+$fitness = new Fitness;
+$fitness->fitnessEvaluation($population);
 //$individu = new Individu;
 //print_r($individu->createRandomIndividu());
