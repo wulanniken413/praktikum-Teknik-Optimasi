@@ -48,7 +48,7 @@ class Population
 {
     function createRandomPopulation(){
         $individu = new Individu;
-        for ($i = 0; $i<= Parameters::POPULATION_SIZE; $i++){
+        for ($i = 0; $i<= Parameters::POPULATION_SIZE-1; $i++){
             $ret[] = $individu->createRandomIndividu();
         }
         foreach($ret as $key => $val){
