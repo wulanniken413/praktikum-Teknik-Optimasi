@@ -64,11 +64,15 @@ class Fitness
 
     function fitnessEvaluation ($population)
     {
-        //$catalogue = new Catalogue;
-        print_r($population);
-        //foreach ($population as $listOfIndividuKey => $listOfIndividu){
-            //echo 'Individu-.' $listOfIndividuKey.',<br>';
-        //}
+        $catalogue = new Catalogue;
+        foreach ($population as $listOfIndividuKey => $listOfIndividu){
+            echo 'Individu-'. $listOfIndividuKey.'<br>';
+            foreach ($listOfIndividu as $individuKey => $binaryGen){
+                echo $binaryGen.'&nbsp;&nbsp;';
+                print_r($catalogue->product()[$individuKey]);
+                echo '<br>';
+            }
+        }
     }
 }
 
