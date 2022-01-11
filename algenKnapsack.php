@@ -105,6 +105,12 @@ class Fitness
             echo ' Fitness value: '.$fitnessValue;
             if ($this->isFit($fitnessValue)){
                 echo ' (Fit)';
+                $fits[]= [
+                    'selectedIndividuKey' => $listOfIndividuKey,
+                    'numberOfSelectedItem' => $numberOfSelectedItem,
+                    'fitenessValue' => $fitnessValue
+                ];
+                print_r($fits);
             } else {
                 echo ' (Not Fit)';
             }
