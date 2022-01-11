@@ -5,6 +5,7 @@ class Parameters
     const FILE_NAME = 'products.txt';
     const COLUMNS = ['item', 'price'];
     const POPULATION_SIZE = 10;
+    const BUDGET = 250000;
 }
 
 class Catalogue
@@ -81,6 +82,13 @@ class Fitness
        return count($this->selectingItem($individu));
     }
 
+    function isFit($fitnessValue)
+    {
+        if ($fitnessValue <= Parameters::BUDGET){
+            return TRUE;
+        }
+    }
+
     function fitnessEvaluation ($population)
     {
         $catalogue = new Catalogue;
@@ -95,7 +103,13 @@ class Fitness
             $numberOfSelectedItem = $this->countSelectedItem($listOfIndividu);
             echo 'Max. Item: '.$numberOfSelectedItem;
             echo ' Fitness value: '.$fitnessValue;
-            echo '<br>';
+            if ($this->isFit($fitnessValue)){
+                echo ' (Fit)';
+            } else {
+                echo ' (Not Fit)';
+            }
+
+            echo '<p>';
         }
         
 
