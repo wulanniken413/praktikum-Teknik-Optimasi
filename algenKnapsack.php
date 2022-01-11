@@ -44,20 +44,12 @@ class Individu
     }
 }
 
-class PopulationGenerator
+class Population
 {
-    function createIndividu($parameters){
-        $catalogue = new Catalogue;
-        $lengthOfGen = $catalogue->product($parameters)['gen_length'];
-        for($i=0; $i <= $lengthOfGen-1; $i++){
-            $ret[]=rand(0,1);
-        }
-        return $ret;
-    }
-
-    function createPopulation($parameters){
-        for ($i = 0; $i<= $parameters['population_size']; $i++){
-            $ret[] = $this->createIndividu($parameters);
+    function createRandomPopulation(){
+        $individu = new Individu;
+        for ($i = 0; $i<= Parameters::POPULATION_SIZE; $i++){
+            $ret[] = $individu->createRandomIndividu();
         }
         foreach($ret as $key => $val){
             print_r($val);
@@ -75,8 +67,8 @@ $parameters = [
 //$katalog = new Catalogue;
 //$katalog->product($parameters);
 
-//$initalPopulation = new PopulationGenerator;
-//$initalPopulation->createPopulation($parameters);
+$initalPopulation = new Population;
+$initalPopulation->createRandomPopulation();
 
-$individu = new Individu;
-print_r($individu->createRandomIndividu());
+//$individu = new Individu;
+//print_r($individu->createRandomIndividu());
