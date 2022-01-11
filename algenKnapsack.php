@@ -73,8 +73,7 @@ class Fitness
 
     function calculateFitnessValue($individu)
     {
-        print_r ($this->selectingItem($individu));
-        exit();
+        return array_sum(array_column($this->selectingItem($individu),'selectedPrice'));
     }
 
     function fitnessEvaluation ($population)
@@ -88,8 +87,11 @@ class Fitness
                 echo '<br>';
             }
             $fitnessValue = $this->calculateFitnessValue($listOfIndividu);
+            echo 'fitnessValue: '.$fitnessValue;
+            echo '<br>';
         }
         
+
     }
 }
 
