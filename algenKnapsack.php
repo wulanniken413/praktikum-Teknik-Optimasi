@@ -57,10 +57,25 @@ class Population
 
 class Fitness
 {
-    //function selectingItem()
-    //{
-        //$catalogue = new Catalogue;
-    //}
+    function selectingItem($individu)
+    {
+        $catalogue = new Catalogue;
+        foreach($individu as $individuKey => $binaryGen){
+            if ($binaryGen === 1){
+                $ret[] =[
+                    'selectedKey' => $individuKey,
+                    'selectedPrice' => $catalogue->product()[$individuKey]['price']
+                ];
+            }
+        }
+        return $ret;
+    }
+
+    function calculateFitnessValue($individu)
+    {
+        print_r ($this->selectingItem($individu));
+        exit();
+    }
 
     function fitnessEvaluation ($population)
     {
@@ -72,7 +87,9 @@ class Fitness
                 print_r($catalogue->product()[$individuKey]);
                 echo '<br>';
             }
+            $fitnessValue = $this->calculateFitnessValue($listOfIndividu);
         }
+        
     }
 }
 
