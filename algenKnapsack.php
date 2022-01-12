@@ -5,7 +5,8 @@ class Parameters
     const FILE_NAME = 'products.txt';
     const COLUMNS = ['item', 'price'];
     const POPULATION_SIZE = 10;
-    const BUDGET = 250000;
+    const BUDGET = 280000;
+    const STOPPING_VALUE = 10000;
 }
 
 class Catalogue
@@ -82,12 +83,53 @@ class Fitness
        return count($this->selectingItem($individu));
     }
 
+    function searchBestIndividu($fits, $maxItem, $nuberOfIndividuHasMaxItem)
+    {
+        if ($nuberOfIndividuHasMaxItem ===1){
+            $index = array_search($maxItem, array_column($fits, 'numberOfSelectedItem'));
+            return $fits[$index];
+        } else {
+            foreach ($fits as $key => $val){
+                if ($val['numberOfSelectedItem']=== $maxItem){
+                    echo $key.' '.$val['fitnessValue'].'<br>';
+                    $ret[] =[
+                        'individuKey' => $key,
+                        'fitnessValue' => $val['fitnessValue']
+                    ];
+                }
+            }
+            if (count(array_unique(array_column($ret, 'fitnessValue')))=== 1){
+                $index = rand(0, count($ret)- 1);
+            } else {
+                $max = max(array_column($ret, 'fitnessValue'));
+                $index = array_search($max, array_column($ret, 'fitnessValue'));
+            }
+            echo 'Hasil';
+            return $ret[$index];
+        }
+    }
+
     function isFound($fits)
     {
        $countedMaxItems = array_count_values(array_column($fits, 'numberOfSelectedItem'));
        print_r($countedMaxItems);
        echo '<br>';
-       echo max(array_keys($countedMaxItems)); 
+       $maxItem = max(array_keys($countedMaxItems));
+       echo $maxItem;
+       echo '<br>'; 
+       echo $countedMaxItems[$maxItem];
+       $nuberOfIndividuHasMaxItem = $countedMaxItems[$maxItem];
+
+       $bestFitnessValue = $this->searchBestIndividu($fits, $maxItem, $nuberOfIndividuHasMaxItem) ['fitnessValue'];
+       echo '<br>';
+       echo '<br>Best fitness value :'.$bestFitnessValue;
+
+       $residual = Parameters::BUDGET - $bestFitnessValue;
+       echo ' Residual:' . $residual;
+       if ($residual <= Parameters::STOPPING_VALUE && $residual > 0){
+           return TRUE;
+       }
+
     }
 
     function isFit($fitnessValue)
@@ -124,9 +166,11 @@ class Fitness
             }
             echo '<p>';
         }
-        $this->isFound($fits);
-        
-
+        if ($this->isFound($fits)){
+            echo ' Found';
+        } else{
+            echo' >> Next generation';
+        }
     }
 }
 
