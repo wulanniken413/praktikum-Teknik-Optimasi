@@ -268,6 +268,21 @@ class Crossover
         }
     }
 }
+class Mutation
+{
+    function __construct($population)
+    {
+        $this->population = $population;
+    }
+    function calculateMutationRate()
+    {
+        return 1/ (new Individu ())->countNumberOfGen();
+    }
+    function mutation()
+    {
+        echo $this->calculateMutationRate();exit();
+    }
+}
 
 $initalPopulation = new Population;
 $population=$initalPopulation->createRandomPopulation();
@@ -275,7 +290,9 @@ $population=$initalPopulation->createRandomPopulation();
 $fitness = new Fitness;
 $fitness->fitnessEvaluation($population);
 
-$crossover = new Crossover($population);
-$crossover->crossover();
+//$crossover = new Crossover($population);
+//$crossover->crossover();
+echo '<p></p>';
+(new Mutation($population))->mutation();
 //$individu = new Individu;
 //print_r($individu->createRandomIndividu());

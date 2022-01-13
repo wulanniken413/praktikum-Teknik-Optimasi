@@ -240,6 +240,7 @@ class Crossover
     function crossover()
     {
         $cutPointIndex = $this->cutPointRandom();
+        echo $cutPointIndex;
         foreach ($this->generateCrossover() as $listOfCrossover){
             $parent1 = $this->populations[$listOfCrossover[0]];
             $parent2 = $this->populations[$listOfCrossover[1]];
@@ -269,13 +270,31 @@ class Crossover
     }
 }
 
+class Mutation
+{
+    function __construct($population)
+    {
+        $this->population = $population;
+    }
+    function calculateMutationRate()
+    {
+        return 1/ (new Individu ())->countNumberOfGen();
+    }
+    function mutation()
+    {
+        echo $this->calculateMutationRate();exit();
+    }
+}
+
 $initalPopulation = new Population;
 $population=$initalPopulation->createRandomPopulation();
 
 $fitness = new Fitness;
 $fitness->fitnessEvaluation($population);
 
-$crossover = new Crossover($population);
-$crossover->crossover();
+//$crossover = new Crossover($population);
+//$crossover->crossover();
+echo '<p></p>';
+(new Mutation($population))->mutation();
 //$individu = new Individu;
 //print_r($individu->createRandomIndividu());
