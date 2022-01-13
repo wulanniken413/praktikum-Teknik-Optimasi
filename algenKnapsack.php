@@ -7,6 +7,7 @@ class Parameters
     const POPULATION_SIZE = 10;
     const BUDGET = 280000;
     const STOPPING_VALUE = 10000;
+    const CROSSOVER_RATE = 0.8;
 }
 
 class Catalogue
@@ -152,7 +153,7 @@ class Fitness
             $fitnessValue = $this->calculateFitnessValue($listOfIndividu);
             $numberOfSelectedItem = $this->countSelectedItem($listOfIndividu);
             echo 'Max. Item: '.$numberOfSelectedItem;
-            echo ' Fitness value: '.$fitnessValue;
+            echo ' fitness Value: '.$fitnessValue;
             if ($this->isFit($fitnessValue)){
                 echo ' (Fit)';
                 $fits[]= [
@@ -174,16 +175,51 @@ class Fitness
     }
 }
 
-$parameters = [
-    'file_name' => 'products.txt',
-    'columns' => ['item', 'price'],
-    'population_size' => 10
-];
+class Crossover
+{
+    public $population;
+
+    function __construct($population)
+    {
+        $this->populations = $population;
+    }
+    function randomZeroToOne()
+    {
+        return (float) rand() / (float) getrandmax();
+    }
+    function generateCrossover()
+    {
+        for ($i = 0; $i <= Parameters::POPULATION_SIZE-1; $i++){
+            $randomZeroToOne = $this->randomZeroToOne();
+            if ($randomZeroToOne < Parameters::CROSSOVER_RATE){
+                $parents[$i] = $randomZeroToOne;
+            }
+        }
+       foreach (array_keys($parents) as $key){
+           foreach (array_keys($parents) as $subkey){
+               if ($key !== $subkey){
+                   $ret[] = [$key, $subkey];
+               }
+           }
+           array_shift($parents);
+       }
+       return $ret;
+    }
+    function crossover()
+    {
+        foreach ($this->generateCrossover() as $listOfCrossover){
+            print_r($listOfCrossover);echo '<br>';
+        }
+    }
+}
 
 $initalPopulation = new Population;
 $population=$initalPopulation->createRandomPopulation();
 
 $fitness = new Fitness;
 $fitness->fitnessEvaluation($population);
+
+$crossover = new Crossover($population);
+$crossover->crossover();
 //$individu = new Individu;
 //print_r($individu->createRandomIndividu());
