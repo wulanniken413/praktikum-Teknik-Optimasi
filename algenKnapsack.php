@@ -205,10 +205,66 @@ class Crossover
        }
        return $ret;
     }
+
+    function offspring($parent1,$parent2, $cutPointIndex, $offspring)
+    {
+        $lengthOfGen = new Individu;
+        if ($offspring === 1){
+            for($i = 0; $i <= $lengthOfGen->countNumberOfGen()-1; $i++){
+                if ($i <= $cutPointIndex){
+
+
+                }
+                if ($i <= $cutPointIndex){
+                $ret[] = $parent2[$i];
+                }
+            }
+        }
+        //if ($offspring === 1){
+           // for($i = 0; $i <= $lengthOfGen->countNumberOfGen()-1; $i++){
+              //  if ($i <= $cutPointIndex)
+              //  $ret[] = $parent2[$i];
+           // }
+           // if ($i > $cutPointIndex){
+              //  $ret[] = $parent1[$i];
+            //}
+        //}
+        //return $ret;
+    }
+
+    function cutPointRandom()
+    {
+        $lengthOfGen = new Individu;
+        return rand(0, $lengthOfGen->countNumberOfGen()-1);
+    }
     function crossover()
     {
+        $cutPointIndex = $this->cutPointRandom();
         foreach ($this->generateCrossover() as $listOfCrossover){
-            print_r($listOfCrossover);echo '<br>';
+            $parent1 = $this->populations[$listOfCrossover[0]];
+            $parent2 = $this->populations[$listOfCrossover[1]];
+            echo '<p><p>';
+            echo 'Parents : <br>';
+            foreach ($parent1 as $gen){
+                echo $gen;
+            }
+            echo ' >< ';
+            foreach ($parent2 as $gen){
+                echo $gen;
+            }
+            echo '<br>';
+
+            echo 'Offspring<br>';
+            $offspring1 = $this->offspring($parent1, $parent2, $cutPointIndex, 1);
+            $offspring2 = $this->offspring($parent1, $parent2, $cutPointIndex, 2);
+            foreach ($offspring1 as $gen){
+                echo $gen;
+            }
+            echo ' >< ';
+            foreach ($offspring2 as $gen){
+                echo $gen;
+            }
+            echo '<br>';  
         }
     }
 }
