@@ -243,29 +243,32 @@ class Crossover
         foreach ($this->generateCrossover() as $listOfCrossover){
             $parent1 = $this->populations[$listOfCrossover[0]];
             $parent2 = $this->populations[$listOfCrossover[1]];
-            echo '<p><p>';
-            echo 'Parents : <br>';
-            foreach ($parent1 as $gen){
-                echo $gen;
-            }
-            echo ' >< ';
-            foreach ($parent2 as $gen){
-                echo $gen;
-            }
-            echo '<br>';
+            //echo '<p><p>';
+            //echo 'Parents : <br>';
+            //foreach ($parent1 as $gen){
+            //    echo $gen;
+            //}
+            //echo ' >< ';
+            //foreach ($parent2 as $gen){
+            //    echo $gen;
+            //}
+            //echo '<br>';
 
-            echo 'Offspring<br>';
+            //echo 'Offspring<br>';
             $offspring1 = $this->offspring($parent1, $parent2, $cutPointIndex, 1);
             $offspring2 = $this->offspring($parent1, $parent2, $cutPointIndex, 2);
-            foreach ($offspring1 as $gen){
-                echo $gen;
-            }
-            echo ' >< ';
-            foreach ($offspring2 as $gen){
-                echo $gen;
-            }
-            echo '<br>';  
+            //foreach ($offspring1 as $gen){
+            //    echo $gen;
+            //}
+            //echo ' >< ';
+            //foreach ($offspring2 as $gen){
+            //    echo $gen;
+            //}
+            //echo '<br>';
+            $offsprings[] = $offspring1;
+            $offsprings[] = $offspring2;  
         }
+        return $offsprings;
     }
 }
 class Randomizer
@@ -312,8 +315,17 @@ class Mutation
             $indexOfIndividu = Randomizer::getRandomIndexOfIndividu();
             $indexOfGen = Randomizer::getRandomIndexOfGen();
             $selectedIndividu = $this->population[$indexOfIndividu];
-            $valueOfGen = $selsectedIndividu[$indexOfGen];
-            $mutatedGen =$this->generateMutation($valOfGen);
+
+            echo 'Before mutationa: ';
+            print_r($selectedIndividu);
+            echo'<br>'
+            
+            $valueOfGen = $selectedIndividu [$indexOfGen];
+            $mutatedGen = $this->generateMutation($valueOfGen);
+            $selectedIndividu[$indexOfGen] = $mutatedGen;
+
+            echo ' Afte mutation :';
+            print_r ($selectedIndividu);
             $ret[] = $selectedIndividu;
             }
             return $ret;
@@ -321,15 +333,72 @@ class Mutation
     }
 }
 
+class Selection
+{
+    function __construct($population, $combinedOffsprings)
+    {
+        $this->population = $population;
+        $this->combinedOfsprings = $combinedOffsprings;
+    }
+    function createTemporaryPopulation{
+        foreach ($this->combinatedOffSprings as $offspring){
+            $this->population[] = $offspring;
+        }
+        return $this->population;
+    }
+    function sortFitTemporaryPopulation()
+    {
+        $tempPopulation = $this->createTemporaryPopulation();
+        $fitness = new Fitness;
+        foreach ($tempPopulation as $key => $individu){
+            $fitnessValue = $fitness->calculateFitnessValue($individu);
+            if ($fitness->isFit($fitnessValue)){
+                $fitTemporaryPopulation[] = [
+                    $fitnessValue,
+                    $key
+                ];
+            }
+        }
+        rsort($fitTemporaryPopulation);
+        $fitTemporaryPopulation = array_slice($fitTemporaryPopulation, 0, Parameters::POPULATION_SIZE);
+        return $this->getVariableValue($tempPopulation, $fitTemporaryPopulation);
+    }
+
+    function selectingIndividus()
+    {
+        $selected = $this->sortFitTemporaryPopulation();
+        echo '<p></p>';
+        print_r($selected);
+    }
+
+}
+
 $initalPopulation = new Population;
 $population=$initalPopulation->createRandomPopulation();
 
-$fitness = new Fitness;
-$fitness->fitnessEvaluation($population);
+//$fitness = new Fitness;
+//$fitness->fitnessEvaluation($population);
 
-//$crossover = new Crossover($population);
-//$crossover->crossover();
+$crossover = new Crossover($population);
+$crossoverOffsprings = $crossover->crossover();
+
 echo '<p></p>';
-(new Mutation($population))->mutation();
+//(new Mutation($population))->mutation();
+$mutation = new Mutation($population);
+if ($mutation->mutation()){
+    $mutationOffsprings = $mutation->mutation();
+
+    foreach ($mutationOffsprings as $mutationOffspring){
+        $crossoverOffsprings[] = $mutationOffspring;
+    }
+}
+echo 'Mutation offsprings <br>';
+print_r($crossoverOffsprings);
+$fitness->fitnessEvaluation($crossoverOffsprings);
+
+$selection = new Selection($population, $crossoverOffsprings);
+$selection->selectingIndividus();
+
+
 //$individu = new Individu;
 //print_r($individu->createRandomIndividu());
