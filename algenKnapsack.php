@@ -268,6 +268,14 @@ class Crossover
         }
     }
 }
+class Randomizer
+{   static function getRandomIndexOfGen(){
+    return rand(0, (new Individu())->countNumberOfGen()-1);
+    }
+    static function getRandomIndexOfIndividu(){
+        return rand(0, Parameters::POPULATION_SIZE-1);
+    }
+}
 class Mutation
 {
     function __construct($population)
@@ -278,9 +286,28 @@ class Mutation
     {
         return 1/ (new Individu ())->countNumberOfGen();
     }
+
+    function calculateNumOfMutation()
+    {
+        return round($this->calculateMutationRate() * Parameters::POPULATION_SIZE);
+    }
+    function isMutation()
+    {
+        if ($this->calculateNumOfMutation() > 0){
+            return TRUE;
+        }
+    }
     function mutation()
     {
-        echo $this->calculateMutationRate();exit();
+        if ($this->isMutation()){
+        for ($i = 0; $i <= $this->calculateNumOfMutation()-1; $i++ ){
+            $indexOfIndividu = Randomizer::getRandomIndexOfIndividu();
+            $indexOfGen = Randomizer::getRandomIndexOfGen();
+            $selectedIndividu = $this->population[$indexOfIndividu];
+            print_r($selectedIndividu);
+            exit();
+            }
+        }
     }
 }
 
