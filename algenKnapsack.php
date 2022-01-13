@@ -297,6 +297,14 @@ class Mutation
             return TRUE;
         }
     }
+    function generateMutation($valueOfGen)
+    {
+        if ($valueOfGen === 0){
+            return 1;
+        } else {
+            return 0;
+        }
+    }
     function mutation()
     {
         if ($this->isMutation()){
@@ -304,9 +312,11 @@ class Mutation
             $indexOfIndividu = Randomizer::getRandomIndexOfIndividu();
             $indexOfGen = Randomizer::getRandomIndexOfGen();
             $selectedIndividu = $this->population[$indexOfIndividu];
-            print_r($selectedIndividu);
-            exit();
+            $valueOfGen = $selsectedIndividu[$indexOfGen];
+            $mutatedGen =$this->generateMutation($valOfGen);
+            $ret[] = $selectedIndividu;
             }
+            return $ret;
         }
     }
 }
